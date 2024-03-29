@@ -24,7 +24,15 @@ class Library:
         self.books.append(Book)
 
     def show_available_books(self):
-        available_books = [book for book in self.books if book.get_availability()]
+        #available_books = [book for book in self.books if book.get_availability()] # Запись аналогичной ниже:
+        available_books = []
+        for book in self.books:
+            if book.get_availability():
+                available_books.append(book)
+        # Здесь мы создаём пустой список available_books, а затем перебираем каждую книгу в списке self.books.
+        # Для каждой книги проверяем, возвращает ли метод get_availability() значение True, что указывает на то,
+        # что книга доступна. Если книга доступна, мы добавляем её в список available_books с помощью метода append.
+
         if available_books: # Эта строка проверяет, не пуст ли список available_books. В Python непустой список
                             # в логическом контексте воспринимается как True. Если есть хотя бы одна доступная
                             #книга, условие истинно, и выполняется блок кода, следующий за if.
