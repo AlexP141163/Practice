@@ -10,14 +10,17 @@ clok = pygame.time.Clock()
 fps = 60
 
 # Определяем переменную в которой будет храниться размер рабочего окна:
-windows_size = (1280, 800)
-screen = pygame.display.set_mode(windows_size) # В переменной 'screen' создаем экран с параметрами 'windows_size':
+screen_width, screen_height = 1280, 800
+screen = pygame.display.set_mode((screen_width, screen_height)) # В переменной 'screen' создаем экран с параметрами 'windows_size':
 pygame.display.set_caption(" Игра Арконоид ")
 
 # Помещаем загруженный объект на экран и отрисовываем его. Отрисовывать его нужно обязательно только в цикле,
 # обязательно после заливки экрана.
 image = pygame.image.load("image/test.png") # Загрузим файл изображения:
 image_rect = image.get_rect() # В данной переменной сохраняем рамку объекта 'image', что бы определять соприкосновения:
+
+image_width = 100
+image_height = 100
 
 # Создадим игровой цикл (каким образом после начала будет заканчиваться программа):
 run = True      # Создаем переменную 'run' в которой будет храниться 'Thue'- в этой ситуации программа работает:
