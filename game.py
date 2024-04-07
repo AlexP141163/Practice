@@ -26,9 +26,10 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Игра Арконоид")
 
 # Цвета:
-BLACK = (0, 0, 0)
+BLACK = (0, 160, 255)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
+LIGHT_BLUE = (255, 0, 0)
 # Определение цветов кирпичей
 brick_colors = [(255, 0, 0), (255, 165, 0), (255, 255, 0), (0, 255, 0), (0, 0, 255)]
 
@@ -55,6 +56,8 @@ ball_y = paddle_y - ball_radius
 ball_speed_x = 4
 ball_speed_y = -4
 
+# Затем, в начале игрового цикла, прежде чем рисовать что-либо еще:
+screen.fill(LIGHT_BLUE)
 # Запуск основного цикла игры:
 running = True
 while running:
@@ -89,7 +92,7 @@ while running:
         score_fail += 1
         if score_fail >= 3:
             sound_4.play()  # Воспроизведение звука завершения игры
-            screen.fill(BLACK)  # Очистка экрана
+            screen.fill(LIGHT_BLUE)  # Очистка экрана
             final_score_text = font.render('Итоговый счёт: ' + str(score), True, WHITE)
             final_fails_text = font.render('Количество промахов: ' + str(score_fail), True, WHITE)
             screen.blit(final_score_text, (screen_width // 2 - 100, screen_height // 2 - 50))
@@ -151,6 +154,21 @@ while running:
     score_text = font.render('Количество промахов : ' + str(score_fail), True, WHITE)
     screen.blit(score_text, (450, 450))  # Располагаем в верхнем левом углу
     # Отображаем итоговый счёт и количество промахов (уже обнуленное)
+
+    # Проверка условий окончания игры:
+    if len(bricks) == 0 or score >= 1500:
+        screen.fill(LIGHT_BLUE)  # Очистка экрана
+        if score >= 1500:
+            victory_text = font.render('Поздравляем! Вы набрали 1500 очков!', True, WHITE)
+        else:
+            victory_text = font.render('Поздравляем! Вы разбили все кирпичи!', True, WHITE)
+        text_rect = victory_text.get_rect(center=(screen_width // 2, screen_height // 2 - 50))  # Центрирование текста
+        screen.blit(victory_text, text_rect)
+        final_score_text = font.render('Итоговый счёт: ' + str(score), True, WHITE)
+        screen.blit(final_score_text, (screen_width // 2 - 100, screen_height // 2))
+        pygame.display.flip()  # Обновляем экран для отображения сообщения
+        time.sleep(5)  # Пауза перед выходом для прочтения сообщения
+        running = False
 
     # Обновление экрана:
     pygame.display.flip()
