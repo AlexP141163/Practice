@@ -9,6 +9,10 @@ fps = 60
 score = 0  # Инициализация переменной счет в игре:
 score_fail = 0 # Инициализация переменной счета промаха в игре:
 font = pygame.font.SysFont(None, 46)  # Инициализируем модуль шрифтов:
+#Загрузим иконку игры. Сохраним файл иконки в папкн "img":
+icon = pygame.image.load("image/4123.jpg")
+pygame.display.set_icon(icon) # Устанавливаем переменную "icon" с изображением как иконку:
+
 # Загрузим звуки игры:
 sound_1 = pygame.mixer.Sound("sound/sound_1.wav")
 sound_2 = pygame.mixer.Sound("sound/sound_2.wav")
@@ -185,4 +189,3 @@ while running:
     clock.tick(fps)
 pygame.quit()
 sys.exit()
-
