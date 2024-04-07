@@ -14,14 +14,19 @@ sound_1 = pygame.mixer.Sound("sound/sound_1.wav")
 sound_2 = pygame.mixer.Sound("sound/sound_2.wav")
 sound_3 = pygame.mixer.Sound("sound/sound_3.wav")
 sound_4 = pygame.mixer.Sound("sound/sound_4.wav")
+sound_5 = pygame.mixer.Sound("sound/sound_5.wav")
+sound_6 = pygame.mixer.Sound("sound/sound_6.wav")
+sound_7 = pygame.mixer.Sound("sound/sound_7.wav")
 # Установка громкости звуков:
 sound_1.set_volume(0.5)
 sound_2.set_volume(0.5)
 sound_3.set_volume(0.5)
 sound_4.set_volume(0.5)
-
+sound_5.set_volume(0.5)
+sound_6.set_volume(0.5)
+sound_7.set_volume(0.5)
 # Определяем переменную в которой будет храниться размер рабочего окна:
-screen_width, screen_height = 1280, 800
+screen_width, screen_height = 1180, 860
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Игра Арконоид")
 
@@ -90,8 +95,10 @@ while running:
         ball_speed_y = - ball_speed_y
         score -= 50  # За промах отнимаем 50 очков:
         score_fail += 1
+        sound_6.play()
         if score_fail >= 3:
             sound_4.play()  # Воспроизведение звука завершения игры
+            sound_7.play()
             screen.fill(LIGHT_BLUE)  # Очистка экрана
             final_score_text = font.render('Итоговый счёт: ' + str(score), True, WHITE)
             final_fails_text = font.render('Количество промахов: ' + str(score_fail), True, WHITE)
@@ -102,7 +109,7 @@ while running:
             text_rect = game_over_text.get_rect(center=(screen_width // 2, screen_height // 2 + 70))  # Центрирование текста
             screen.blit(game_over_text, text_rect)
             pygame.display.flip()  # Обновляем экран для отображения сообщения
-            time.sleep(5)  # Пауза перед выходом для прочтения сообщения
+            time.sleep(6)  # Пауза перед выходом для прочтения сообщения
             running = False
 
     for brick, color in bricks:
@@ -166,6 +173,7 @@ while running:
         screen.blit(victory_text, text_rect)
         final_score_text = font.render('Итоговый счёт: ' + str(score), True, WHITE)
         screen.blit(final_score_text, (screen_width // 2 - 100, screen_height // 2))
+        sound_5.play()
         pygame.display.flip()  # Обновляем экран для отображения сообщения
         time.sleep(5)  # Пауза перед выходом для прочтения сообщения
         running = False
