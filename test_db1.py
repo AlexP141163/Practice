@@ -15,9 +15,9 @@ c.execute('''CREATE TABLE IF NOT EXISTS products
               FOREIGN KEY (category_id) REFERENCES categories(id))''')
 
 # Добавляем примеры категорий
-c.execute("INSERT INTO categories (name) VALUES ('Electronics')")
-c.execute("INSERT INTO categories (name) VALUES ('Clothing')")
-c.execute("INSERT INTO categories (name) VALUES ('Books')")
+#c.execute("INSERT INTO categories (name) VALUES ('Electronics')")
+#c.execute("INSERT INTO categories (name) VALUES ('Clothing')")
+#c.execute("INSERT INTO categories (name) VALUES ('Books')")
 
 # Сохраняем изменения и закрываем соединение
 conn.commit()
