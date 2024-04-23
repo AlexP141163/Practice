@@ -4,8 +4,9 @@ import time
 pygame.font.init()
 # Инициализация 'Pygame':
 pygame.init()
+
 clock = pygame.time.Clock()  # Исправил опечатку с 'clock' на 'clock'
-fps = 60
+fps = 70
 score = 0  # Инициализация переменной счет в игре:
 score_fail = 0 # Инициализация переменной счета промаха в игре:
 font = pygame.font.SysFont(None, 46)  # Инициализируем модуль шрифтов:
@@ -21,6 +22,7 @@ sound_4 = pygame.mixer.Sound("sound/sound_4.wav")
 sound_5 = pygame.mixer.Sound("sound/sound_5.wav")
 sound_6 = pygame.mixer.Sound("sound/sound_6.wav")
 sound_7 = pygame.mixer.Sound("sound/sound_7.wav")
+
 # Установка громкости звуков:
 sound_1.set_volume(0.5)
 sound_2.set_volume(0.5)
@@ -29,12 +31,12 @@ sound_4.set_volume(0.5)
 sound_5.set_volume(0.5)
 sound_6.set_volume(0.5)
 sound_7.set_volume(0.5)
+
 # Определяем переменную в которой будет храниться размер рабочего окна:
 screen_width, screen_height = 1180, 860
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Игра Арконоид")
-
-# Цвета:
+pygame.display.set_caption("Игра Арконоид (Победа - Игра до 1500 очков, полностью выбитые кирпичи, Проигрыш - 3 пропуска мяча)")
+# Цвета
 BLACK = (0, 160, 255)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
@@ -56,7 +58,7 @@ bricks = [((col * (brick_width + brick_gap), row * (brick_height + brick_gap)), 
 paddle_width, paddle_height = 100, 10
 paddle_x = (screen_width - paddle_width) // 2
 paddle_y = screen_height - (paddle_height * 2)
-paddle_speed = 6
+paddle_speed = 8
 
 # Параметры мяча:
 ball_radius = 10
@@ -67,6 +69,9 @@ ball_speed_y = -4
 
 # Затем, в начале игрового цикла, прежде чем рисовать что-либо еще:
 screen.fill(LIGHT_BLUE)
+# Очистите экран перед выводом текста
+screen.fill(BLACK)  # Или любой другой цвет фона
+
 # Запуск основного цикла игры:
 running = True
 while running:
@@ -75,7 +80,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-# Движение платформы:
+    # Движение платформы:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and paddle_x > 0: # 'paddle_x > 0' не дает платформе выйти за пределы экрана:
         paddle_x -= paddle_speed
@@ -158,12 +163,13 @@ while running:
     pygame.draw.rect(screen, WHITE, (paddle_x, paddle_y, paddle_width, paddle_height))
     pygame.draw.circle(screen, BLUE, (ball_x, ball_y), ball_radius)
     score_text = font.render('Счет в игре: ' + str(score), True, WHITE)
-    #screen.blit(score_text, (600, 400))  # Располагаем в верхнем левом углу
-    score_rect = score_text.get_rect(center=(screen_width / 2, screen_height / 2))
+    screen.blit(score_text, (484, 400))  # Располагаем в верхнем левом углу
+    #score_rect = score_text.get_rect(center=(screen_width / 2, screen_height / 2))
+    #score_rect = score_text.get_rect(center=(screen_width / 2, screen_height / 2))
     # Отображение текста на экране
-    screen.blit(score_text, score_rect)
-    score_text = font.render('Количество промахов : ' + str(score_fail), True, WHITE)
-    screen.blit(score_text, (450, 450))  # Располагаем в верхнем левом углу
+    #screen.blit(score_text, score_rect)
+    score_text = font.render(f'Промахи (игра до 3): ' + str(score_fail), True, WHITE)
+    screen.blit(score_text, (348, 450))  # Располагаем в верхнем левом углу
     # Отображаем итоговый счёт и количество промахов (уже обнуленное)
 
     # Проверка условий окончания игры:
