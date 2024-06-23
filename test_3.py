@@ -2,8 +2,6 @@ import pygame
 import sys
 import time
 import json
-import random
-
 
 # Инициализация Pygame
 pygame.init()
@@ -143,17 +141,18 @@ class Game:
     def check_game_over(self):
         if self.lives <= 0:
             self.sounds['game_over_'].play()
-            time.sleep(2)
-            #self.screen.fill((0, 150, 200))
+            #time.sleep(2)
+            self.screen.fill((0, 150, 200))
             self.display_message("Game Over")
             self.sounds['game_over'].play()
-            time.sleep(3)
+            #time.sleep(3)
         elif not self.bricks:
+            self.screen.fill((0, 255, 0))
             self.sounds['win_game'].play()
             self.display_message("You Win!")
 
     def display_message(self, message):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill((255, 0, 0))
         text = self.font.render(message, True, (255, 255, 255))
         text_rect = text.get_rect(center=(self.screen_width // 2, self.screen_height // 2))
         self.screen.blit(text, text_rect)
@@ -206,8 +205,8 @@ class Game:
     def load_sounds(self):
         self.sounds = {
             'hit_brick': pygame.mixer.Sound("sound/sound_1.wav"),
-            'hit_paddle': pygame.mixer.Sound("sound/sound_2.wav"),
-            'hit_edge': pygame.mixer.Sound("sound/sound_3.wav"),
+            'hit_edge': pygame.mixer.Sound("sound/sound_2.wav"),
+            'hit_paddle': pygame.mixer.Sound("sound/sound_3.wav"),
             'lose_life': pygame.mixer.Sound("sound/sound_4.wav"),
             'game_over': pygame.mixer.Sound("sound/sound_4.wav"),
             'win_game': pygame.mixer.Sound("sound/sound_5.wav"),

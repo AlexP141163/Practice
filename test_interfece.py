@@ -24,31 +24,31 @@ class InputBox:
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
 
-input_name = InputBox(50, 100, 140, 32, "Enter Name")
-input_difficulty = InputBox(50, 150, 140, 32, "Enter Difficulty (1-5)")
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # Проверка клика в пределах прямоугольника поля ввода
             if self.rect.collidepoint(event.pos):
+                # Активируем или деактивируем поле ввода
                 self.active = not self.active
             else:
                 self.active = False
+            # Изменение цвета поля ввода в зависимости от активности
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
-        if event.type == pygame.KEYDOWN:
-            if self.active:
-                if event.key == pygame.K_RETURN:
-                    self.active = False
-                    self.color = COLOR_INACTIVE
-                elif event.key == pygame.K_BACKSPACE:
-                    self.text = self.text[:-1]
-                else:
-                    self.text += event.unicode
-                self.txt_surface = FONT.render(self.text, True, self.color)
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_RETURN:
+                self.active = False
+                self.color = COLOR_INACTIVE
+            elif event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]  # Удаление последнего символа
+            else:
+                self.text += event.unicode  # Добавление символа
+            # Обновление текстовой поверхности для отображения
+            self.txt_surface = FONT.render(self.text, True, self.color)
 
     def draw(self, screen):
+        # Отрисовка поля ввода и текста в нем
         pygame.draw.rect(screen, self.color, self.rect, 2)
         screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
-
 
 class Button:
     def __init__(self, x, y, w, h, text, callback):
@@ -141,20 +141,13 @@ class Game:
                 brick.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
-
-
+            
 def main_menu():
-    pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    pygame.display.set_caption('Enter Name and Difficulty')
 
-    input_name = InputBox(50, 100, 200, 50, "Enter Name")
-    input_difficulty = InputBox(50, 200, 200, 50, "Enter Difficulty (1-5)")
-    start_button = Button(350, 300, 100, 50, "Start", lambda: start_game(input_name.text, int(input_difficulty.text)))
-
-    input_boxes = [input_name, input_frame]  # Добавьте объекты InputBox в список
-    buttons = [start_button]  # Добавьте кнопку старта в список
+    input_boxes = [InputBox(50, 100, 200, 50, "Enter Name"), InputBox(50, 200, 200, 50, "Enter Difficulty (1-5)")]
+    buttons = [Button(350, 300, 100, 50, "Start", lambda: start_game(input_boxes[0].text, input_boxes[1].text))]
 
     done = False
     while not done:
@@ -162,26 +155,31 @@ def main_menu():
             if event.type == pygame.QUIT:
                 done = True
             for box in input_boxes:
-                box.handle_event(event)
+                box.handle_event(event)  # Правильный вызов метода handle_event для каждого input box
             for button in buttons:
-                button.handle_event(event)
+                button.handle_event(event)  # Правильный вызов метода handle_event для кнопки
 
         screen.fill((30, 30, 30))
         for box in input_boxes:
-            box.draw(screen)
+            box.draw(screen)  # Отрисовка каждого input box
         for button in buttons:
-            button.draw(screen)
+            button.draw(screen)  # Отрисовка кнопки
 
         pygame.display.flip()
         clock.tick(60)
 
     pygame.quit()
 
+
 def start_game(player_name, difficulty):
-    if not player_name or not difficulty.isdigit() or not 1 <= int(difficulty) <= 5:
+    try:
+        difficulty = int(difficulty)
+        if not player_name.strip() or not 1 <= difficulty <= 5:
+            raise ValueError("Invalid input.")
+    except ValueError:
         print("Invalid input. Please enter a valid name and difficulty level (1-5).")
         return
-    game = Game(player_name, int(difficulty))
+    game = Game(player_name, difficulty)
     game.run()
 
 # Запустить главное меню
